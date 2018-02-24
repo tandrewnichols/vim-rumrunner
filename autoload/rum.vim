@@ -44,7 +44,7 @@ endfunction
 function! rum#resume(...)
   let g:rum.disabled = 0
   if s:rumList[0].num != bufnr('%')
-    call rum#add(bufnr('%'), bufname('%'))
+    call rum#add(bufnr('%'), fnamemodify(bufname('%'), ':.'))
   endif
 endfunction
 
@@ -78,7 +78,7 @@ endfunction
 
 function! rum#move(count)
   call rum#suspend()
-  let current = g:_.findIndex(s:rumList, { 'num': bufnr('%') })
+  let current = index(s:rumList, { 'num': bufnr('%'), 'name': fnamemodify(bufname('%'), ":.") })
   let index = current + a:count
   if index < 0
     let index = 0

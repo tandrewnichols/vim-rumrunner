@@ -41,7 +41,7 @@ function! rum#suspend()
   let g:rum.disabled = 1
 endfunction
 
-function! rum#resume()
+function! rum#resume(...)
   let g:rum.disabled = 0
   if s:rumList[0].num != bufnr('%')
     call rum#add(bufnr('%'), bufname('%'))
@@ -66,4 +66,30 @@ function! rum#isIgnored(file)
   endfor
 
   return 0
+endfunction
+
+function! rum#prev(count)
+  call rum#move(a:count)
+endfunction
+
+function! rum#next(count)
+  call rum#move(a:count * -1)
+endfunction
+
+function! rum#move(count)
+  call rum#suspend()
+  let current = g:_.findIndex(s:rumList, { 'num': bufnr('%') })
+  let index = current + a:count
+  if index < 0
+    let index = 0
+  endif
+
+  let buf = s:rumList[ current + a:count ]
+  exec 'b' buf.num
+
+  if exists('s:resume_timeout')
+    call timer_stop(s:resume_timeout)
+  endif
+
+  let s:resume_timeout = timer_start(g:rum.resume_timeout, function('rum#resume'))
 endfunction

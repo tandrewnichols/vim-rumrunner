@@ -6,10 +6,13 @@ if !exists('g:rum')
   let g:rum = {}
 endif
 
+" Set some defaults
 let g:rum = extend(g:rum, {
       \  'resume_timeout': 1500,
       \  'disabled': 0,
       \  'ignore_dirs': 1,
+      \  'ignore_help': 1,
+      \  'ignore_unlisted': 1,
       \  'blacklist': []
       \}
       \, 'keep')
@@ -20,8 +23,17 @@ augroup RumRunner
   au BufWipeout,BufDelete * call rum#remove(expand('<abuf>'), expand('<afile>'))
 augroup END
 
+" Ignore some things
 if g:rum.ignore_dirs
   call add(g:rum.blacklist, function('isdirectory'))
+endif
+
+if g:rum.ignore_help
+  call add(g:rum.blacklist, {name -> &ft == 'help'})
+endif
+
+if g:rum.ignore_unlisted
+  call add(g:rum.blacklist, {name -> !buflisted(name)})
 endif
 
 command! -nargs=0 -count=1 RumPrev :call rum#prev(<count>)

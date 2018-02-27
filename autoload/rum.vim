@@ -84,7 +84,7 @@ function! rum#move(count)
     let index = 0
   endif
 
-  let buf = s:rumList[ current + a:count ]
+  let buf = s:rumList[ index ]
   exec 'b' buf.num
 
   if exists('s:resume_timeout')

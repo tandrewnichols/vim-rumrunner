@@ -77,11 +77,16 @@ function! rum#next(count)
 endfunction
 
 function! rum#move(count)
+  if len(s:rumList) == 1
+    return
+  endif
+
   call rum#suspend()
   let current = index(s:rumList, { 'num': bufnr('%'), 'name': fnamemodify(bufname('%'), ":.") })
   let index = current + a:count
-  if index < 0
-    let index = 0
+
+  if index < 0 || index > len(s:rumList) - 1
+    return
   endif
 
   let buf = s:rumList[ index ]

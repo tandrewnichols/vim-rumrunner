@@ -45,8 +45,8 @@ endif
 command! -nargs=0 -count=1 RumPrev :call rum#prev(<count>)
 command! -nargs=0 -count=1 RumNext :call rum#next(<count>)
 
-nnoremap <Plug>RumPrev :RumPrev<CR>
-nnoremap <Plug>RumNext :RumNext<CR>
+nnoremap <Plug>RumPrev :call rum#prev(v:count ? v:count : 1)<CR>
+nnoremap <Plug>RumNext :call rum#next(v:count ? v:count : 1)<CR>
 
 if !hasmapto('<Plug>RumPrev')
   nmap [r <Plug>RumPrev

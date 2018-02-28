@@ -238,6 +238,10 @@ endfunction
 
   The actual blacklist of patterns and functions used to determine whether a file is ignored. This is exposed publicly because calling `rum#ignore` has to be loaded so you'd have to call it in an `after/plugins` script. If you don't want to mess with that, you can just set the initial list to something else.
 
+## Fun Facts
+
+Rumrunner (and derivatives) is the only word in the English language with "mru" in it in order. Hence the name. You can imagine how excited I was when I found that out. But I also just like the imagery of a pirate doing work behind the scenes to make sure you've always got what you need.
+
 ## Contributing
 
 I always try to be open to suggestions, but I do still have opinions about what this should and should not be so . . . it never hurts to ask before investing a lot of time on a patch.

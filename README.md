@@ -208,6 +208,8 @@ endfunction
 - `<count>[r` - Move `<count>` entries backward in the MRU list (to less recent files).
 - `<count>]r` - Move `<count>` entries forward in the MRU list (to more recent files).
 
+As a slight aside, add [vim-submode](https://github.com/kana/vim-submode) to make repeated navigation simpler.
+
 #### Options
 
 - g:rum.resume_timeout (Default: 2000)

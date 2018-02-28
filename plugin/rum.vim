@@ -23,6 +23,12 @@ augroup RumRunner
   au BufWipeout,BufDelete * call rum#remove(expand('<abuf>'), expand('<afile>'))
 augroup END
 
+if g:rum.ignore_diffs
+  call add(g:rum.blacklist, {name -> &ft == 'diff'})
+  call add(g:rum.blacklist, '\(\.diff\|\.patch\)$')
+  call add(g:rum.blacklist, '^fugitive')
+endif
+
 " Ignore some things
 if g:rum.ignore_dirs
   call add(g:rum.blacklist, function('isdirectory'))

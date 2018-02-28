@@ -8,14 +8,14 @@ endif
 
 " Set some defaults
 let g:rum = extend(g:rum, {
-      \  'resume_timeout': 1500,
-      \  'disabled': 0,
-      \  'ignore_dirs': 1,
-      \  'ignore_help': 1,
-      \  'ignore_unlisted': 1,
-      \  'blacklist': []
-      \}
-      \, 'keep')
+  \  'resume_timeout': 2000,
+  \  'disabled': 0,
+  \  'ignore_dirs': 1,
+  \  'ignore_help': 1,
+  \  'ignore_unlisted': 1,
+  \  'ignore_diffs': 1,
+  \  'blacklist': []
+  \}, 'keep')
 
 augroup RumRunner
   au!

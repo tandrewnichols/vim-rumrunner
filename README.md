@@ -2,6 +2,8 @@
 
 A better MRU list.
 
+[rumrunner.jpg](./rumrunner.jpg)
+
 ## Overview
 
 I have two problems with existing MRU (most recently used) implementations for vim. First, they're isolated, so while you can install, say, mru.vim, other plugins like BufExplorer can't use the list it maintains. Thus BufExplorer implements its own mru list. Which means multiple plugins you use are, potentially, doing the same work to keep the same list. What we need is an MRU plugin with a public-facing API for accessing and manipulating the most recently used list, so that it only needs to be implemented and maintained once and can be shared by all.

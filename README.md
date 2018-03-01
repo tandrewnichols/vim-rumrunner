@@ -2,7 +2,17 @@
 
 A better MRU list.
 
-<img src="rumrunner.jpg" alt="Rumrunner" width="400"></img>
+<pre style="width: 50%">
+              |    |    |
+             )_)  )_)  )_)
+            )___))___))___)\
+           )____)____)_____)\\
+        <span style="color: SaddleBrown"> _____|____|____|____</span>\\\__
+<span style="color: LightSkyBlue">---------</span><span style="color: SaddleBrown">\                   /</span><span style="color: LightSkyBlue">---------</span>
+<span style="color: LightSkyBlue">  ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
+    ^^^^      ^^^^     ^^^    ^^
+         ^^^^      ^^^</span>
+</pre>
 
 ## Overview
 
@@ -21,7 +31,7 @@ This plugin uses timers, which means it requires at least vim 8.0. It also uses 
 If you don't have a preferred installation method, I really like vim-plug and recommend it.
 
 #### Manual
-  
+
 Clone this repository and copy the files in plugin/, autoload/, and doc/ to their respective directories in your vimfiles, or copy the text from the github repository into new files in those directories. Make sure to run `:helptag`.
 
 #### Plug (https://github.com/junegunn/vim-plug)

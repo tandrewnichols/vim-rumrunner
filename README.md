@@ -2,7 +2,7 @@
 
 A better MRU list.
 
-<img src="rumrunner.jpg" alt="Rumrunner" width="300"></img>
+<img src="rumrunner.jpg" alt="Rumrunner" width="400"></img>
 
 ## Overview
 

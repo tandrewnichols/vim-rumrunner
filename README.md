@@ -2,14 +2,25 @@
 
 A better MRU list.
 
-<pre style="width: 50%">
+<style>
+  .ship-width {
+    width: 50%;
+  }
+  .ship-brown {
+    color: SaddleBrown;
+  }
+  .ship-blue {
+    color: LightSkyBlue;
+  }
+</style>
+<pre class="ship-width">
               |    |    |
              )_)  )_)  )_)
             )___))___))___)\
            )____)____)_____)\\
-        <span style="color: SaddleBrown"> _____|____|____|____</span>\\\__
-<span style="color: LightSkyBlue">---------</span><span style="color: SaddleBrown">\                   /</span><span style="color: LightSkyBlue">---------</span>
-<span style="color: LightSkyBlue">  ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
+        <span class="ship-brown"> _____|____|____|____</span>\\\__
+<span class="ship-blue">---------</span><span class="ship-brown">\                   /</span><span class="ship-blue">---------</span>
+<span class="ship-blue">  ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
     ^^^^      ^^^^     ^^^    ^^
          ^^^^      ^^^</span>
 </pre>

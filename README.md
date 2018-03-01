@@ -1,6 +1,6 @@
 # Vim-Rumrunner
 
-The last MRU plugin for vim.
+A better MRU list.
 
 ## Overview
 
@@ -12,7 +12,7 @@ Vim-rumrunner attempts to solve both these problems: the first by providing meth
 
 ## Requirements
 
-This pluging uses timers, which means it requires at least vim 8.0.
+This plugin uses timers, which means it requires at least vim 8.0. It also uses lambdas, so make sure `:echo has('lambda')` is 1.
 
 ## Installation
 
@@ -67,7 +67,7 @@ Rumrunner provides two functions to navigate the mru list, as well as commands a
 - `rum#prev()` - Move down the most recently used list (to less recently used files). This is mapped by default to `[r` (for "rum" or "recent") and available via the `:RumPrev` command.
 - `rum#next()` - Move up the most recently used list (to more recently used files). This is mapped by default to `]r` and available via the `:RumNext` command.
 
-Both of these commands and mappings take counts to jump more than one file at a time and both call [rum#suspend()](rum-suspend), which makes rumrunner stop changing the mru list, even as files are loaded. They then call [rum#resume()](rum-resume) in a timer (with a default timeout of 2 seconds). This timer is debounced so that, if you continue to navigate the tree, the timeout is reset, which means that you can navigate down the mru list 3 files by typing `[r` 3 times (unlike other mru implementations in which you would just bounce between the two newest files). I like a 2 second timeout because it gives me a moment to look at the file to see if it's the one I want and still move on if necessary before rum resumes, but you can configure that value via [g:rum.resume_timeout](rum-resume-timeout).
+Both of these commands and mappings take counts to jump more than one file at a time and both call [rum#suspend()](rum-suspend), which makes Rumrunner stop changing the mru list, even as files are loaded. They then call [rum#resume()](rum-resume) in a timer (with a default timeout of 2 seconds). This timer is debounced so that, if you continue to navigate the tree, the timeout is reset, which means that you can navigate down the mru list 3 files by typing `[r` 3 times (unlike other mru implementations in which you would just bounce between the two newest files). I like a 2 second timeout because it gives me a moment to look at the file to see if it's the one I want and still move on if necessary before rum resumes, but you can configure that value via [g:rum.resume_timeout](rum-resume-timeout).
 
 Example:
 
@@ -145,15 +145,15 @@ Notice that _only_ the one file you're editing changed places. The other files d
 
 #### Ignoring files
 
-It's possible that you won't ever want particular files to be in the most recently used list. You can ignore files by calling `rum#ignore()` with either a string pattern or a funcref/lambda. If you pass a function, it will be called with a single argument, the name of the file currently being added to the MRU list. Return 1 to indicate to rumrunner that the file should _not_ be added to the list (1 meaning, "Yes, ignore this file"). By default, directories, unlisted buffers, help entries, and diffs are ignored, although this is configurable (see [options](options)).
+It's possible that you won't ever want particular files to be in the most recently used list. You can ignore files by calling `rum#ignore()` with either a string pattern or a funcref/lambda. If you pass a function, it will be called with a single argument, the name of the file currently being added to the MRU list. Return 1 to indicate to Rumrunner that the file should _not_ be added to the list (1 meaning, "Yes, ignore this file"). By default, directories, unlisted buffers, help entries, and diffs are ignored, although this is configurable (see [options](options)).
 
 #### Suspend and resume
 
-If you're doing something that might create an unwanted entry in the mru list, you can, yourself, suspend rumrunner by calling `rum#suspend()`, but note that you will need to later call `rum#resume()` to reenable rumrunner, otherwise, files will never be added to the MRU list. Note also that `rum#resume()` checks whether the current buffer is first in the MRU list and puts it there if it's not, which means you shouldn't resume until you are in a buffer that you want to be included in the MRU list.
+If you're doing something that might create an unwanted entry in the mru list, you can, yourself, suspend Rumrunner by calling `rum#suspend()`, but note that you will need to later call `rum#resume()` to reenable Rumrunner, otherwise, files will never be added to the MRU list. Note also that `rum#resume()` checks whether the current buffer is first in the MRU list and puts it there if it's not, which means you shouldn't resume until you are in a buffer that you want to be included in the MRU list.
 
 ## Plugin Authors
 
-If you're just a general user, the above is probably more than sufficient to make the most of rumunner. If you're writing a plugin that could benefit from an MRU list and you want to use Rumrunner, here's some other stuff you might want to know.
+If you're just a general user, the above is probably more than sufficient to make the most of Rumrunner. If you're writing a plugin that could benefit from an MRU list and you want to use Rumrunner, here's some other stuff you might want to know.
 
 #### Add a file to the MRU list
 
@@ -220,23 +220,23 @@ As a slight aside, add [vim-submode](https://github.com/kana/vim-submode) to mak
 
   Internal flag used by `rum#suspend()` and `rum#resume()` to determine whether to add files to the MRU list. The only reason you'd maybe want to set this to 1 is if you wanted Rumrunner to be disabled when vim starts up and then later enabled.
 
-- ignore_dirs (Default: 1)
+- g:rum.ignore_dirs (Default: 1)
 
   Don't add directories to the MRU list. Personally, I don't think of directories as things that are "used," as I'm typically just passing through them to find a particular file, thus they are not added to the MRU list by default.
 
-- ignore_help (Default: 1)
+- g:rum.rummignore_help (Default: 1)
 
   Don't add help entries to the MRU list.
 
-- ignore_unlisted (Default: 1)
+- g:rum.ignore_unlisted (Default: 1)
 
   Don't add unlisted buffers to the MRU list. These are almost always temp buffers and wrappers provided by other plugins that you don't want to cycle through.
 
-- ignore_diffs (Default: 1)
+- g:rum.ignore_diffs (Default: 1)
 
   Don't add diffs, including fugitive buffers, to the MRU list.
 
-- blacklist (Default: [])
+- g:rum.blacklist (Default: [])
 
   The actual blacklist of patterns and functions used to determine whether a file is ignored. This is exposed publicly because calling `rum#ignore` has to be loaded so you'd have to call it in an `after/plugins` script. If you don't want to mess with that, you can just set the initial list to something else.
 

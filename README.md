@@ -2,7 +2,7 @@
 
 A better MRU list.
 
-![rumrunner.jpg](./rumrunner.jpg)
+<img src="rumrunner.jpg" alt="Rumrunner" width="300"></img>
 
 ## Overview
 

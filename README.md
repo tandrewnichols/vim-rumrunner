@@ -2,7 +2,7 @@
 
 A better MRU list.
 
-![ship.png](./ship.png)
+<img src="ship.png" alt="ship.png" width="50%">
 
 ## Overview
 

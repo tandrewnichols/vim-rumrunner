@@ -14,11 +14,24 @@ let g:rum = extend(g:rum, {
   \  'ignore_help': 1,
   \  'ignore_unlisted': 1,
   \  'ignore_diffs': 1,
-  \  'blacklist': []
+  \  'blacklist': [],
+  \  'list': []
   \}, 'keep')
+
+function! s:Init()
+  let initial = argv()
+  for item in initial
+    let entry = { 'name': fnamemodify(item, ':p'), 'num': bufnr(item) }
+    if index(g:rum.list, entry) == -1
+      call add(g:rum.list, entry)
+    endif
+  endfor
+  echo g:rum.list
+endfunction
 
 augroup RumRunner
   au!
+  au VimEnter * call s:Init()
   au BufEnter,BufNew * call rum#add(expand('<abuf>'), expand('<afile>'))
   au BufWipeout,BufDelete * call rum#remove(expand('<abuf>'), expand('<afile>'))
 augroup END

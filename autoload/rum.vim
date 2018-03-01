@@ -1,4 +1,4 @@
-let s:rumList = []
+let g:rum.list = []
 
 function! rum#add(num, name)
   let num = a:num
@@ -8,32 +8,33 @@ function! rum#add(num, name)
     return
   endif
 
-  if type(num) == 1
-    let num = str2nr(num)
-  endif
+  let entry = rum#normalize(num, name)
 
   if !rum#isIgnored(name)
-    let i = index(s:rumList, { 'name': name, 'num': num })
-    if i > -1
-      let item = remove(s:rumList, i)
-      call insert(s:rumList, item, 0)
-    else
-      call insert(s:rumList, { 'name': name, 'num': num }, 0)
+    let i = index(g:rum.list, entry)
+    if i == -1
+      call insert(g:rum.list, entry, 0)
+    elseif i > 0
+      let item = remove(g:rum.list, i)
+      call insert(g:rum.list, item, 0)
     endif
   endif
+endfunction
+
+function! rum#normalize(num, name)
+  return {
+    \  'name': fnamemodify(a:name, ':p'),
+    \  'num': type(a:num) == 0 ? a:num : str2nr(a:num)
+    \}
 endfunction
 
 function! rum#remove(num, name)
   let num = a:num
   let name = a:name
 
-  if type(num) == 1
-    let num = str2nr(num)
-  endif
-
-  let i = index(s:rumList, { 'name': name, 'num': num })
+  let i = index(g:rum.list, rum#normalize(num, name))
   if i > -1
-    call remove(s:rumList, i)
+    call remove(g:rum.list, i)
   endif
 endfunction
 
@@ -43,13 +44,13 @@ endfunction
 
 function! rum#resume(...)
   let g:rum.disabled = 0
-  if s:rumList[0].num != bufnr('%')
+  if g:rum.list[0].num != bufnr('%')
     call rum#add(bufnr('%'), fnamemodify(bufname('%'), ':.'))
   endif
 endfunction
 
 function! rum#get()
-  return s:rumList
+  return g:rum.list
 endfunction
 
 function! rum#ignore(pattern)
@@ -77,19 +78,19 @@ function! rum#next(count)
 endfunction
 
 function! rum#move(count)
-  if len(s:rumList) == 1
+  if len(g:rum.list) == 1
     return
   endif
 
   call rum#suspend()
-  let current = index(s:rumList, { 'num': bufnr('%'), 'name': fnamemodify(bufname('%'), ":.") })
+  let current = index(g:rum.list, rum#normalize(bufnr('%'), bufname('%')))
   let index = current + a:count
 
-  if index < 0 || index > len(s:rumList) - 1
+  if index < 0 || index > len(g:rum.list) - 1
     return
   endif
 
-  let buf = s:rumList[ index ]
+  let buf = g:rum.list[ index ]
   exec 'b' buf.num
 
   if exists('s:resume_timeout')

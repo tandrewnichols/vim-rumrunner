@@ -2,17 +2,7 @@
 
 A better MRU list.
 
-<style>
-  .ship-width {
-    width: 50%;
-  }
-  .ship-brown {
-    color: SaddleBrown;
-  }
-  .ship-blue {
-    color: LightSkyBlue;
-  }
-</style>
+<link href="style.css" rel="stylesheet">
 <pre class="ship-width">
               |    |    |
              )_)  )_)  )_)

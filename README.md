@@ -2,18 +2,7 @@
 
 A better MRU list.
 
-<link href="style.css" rel="stylesheet">
-<pre class="ship-width">
-              |    |    |
-             )_)  )_)  )_)
-            )___))___))___)\
-           )____)____)_____)\\
-        <span class="ship-brown"> _____|____|____|____</span>\\\__
-<span class="ship-blue">---------</span><span class="ship-brown">\                   /</span><span class="ship-blue">---------</span>
-<span class="ship-blue">  ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
-    ^^^^      ^^^^     ^^^    ^^
-         ^^^^      ^^^</span>
-</pre>
+![ship.png](./ship.png)
 
 ## Overview
 

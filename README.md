@@ -2,8 +2,7 @@
 
 A better MRU list.
 
-<link href="style.css" rel="stylesheet">
-<pre class="ship-width">
+<pre>
 
          ___                                             |    |    |
         | _ \_  _ _ __  _ _ _  _ _ _  _ _  ___ _ _      )_)  )_)  )_)

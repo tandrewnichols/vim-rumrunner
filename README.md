@@ -2,7 +2,7 @@
 
 A better MRU list.
 
-[rumrunner.jpg](./rumrunner.jpg)
+![rumrunner.jpg](./rumrunner.jpg)
 
 ## Overview
 

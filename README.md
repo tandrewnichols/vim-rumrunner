@@ -155,6 +155,11 @@ Now after you wait 2 seconds, your list looks like this:
 
 Notice that _only_ the one file you're editing changed places. The other files didn't move because you didn't actually "use" them (they are not "more recently used").
 
+One additional navigation note: there are times when you might want to look through a file for reference without changing the MRU list and the default timeout isn't long enough to glean what you're after. There are two additional mappings to resume and suspend rumrunner manually, which can be used in conjunction with the above mappings:
+
+- `[R` - Suspend rumrunner. This will deactivate any existing timers, so that if you browse to a file via `[r` and `]r` and need a bit more time before rumrunner resumes, you can suspend it permanently, and then reenable it later yourself.
+- `]R` - Resume rumrunner. Don't forget to run this if you use `[R` to disable rumrunner.
+
 #### Ignoring files
 
 It's possible that you won't ever want particular files to be in the most recently used list. You can ignore files by calling `rum#ignore()` with either a string pattern or a funcref/lambda. If you pass a function, it will be called with a single argument, the name of the file currently being added to the MRU list. Return 1 to indicate to Rumrunner that the file should _not_ be added to the list (1 meaning, "Yes, ignore this file"). By default, directories, unlisted buffers, help entries, and diffs are ignored, although this is configurable (see [options](options)).
@@ -201,24 +206,31 @@ endfunction
 
 - `rum#add(num, name)` - Add a new entry to the MRU list.
 - `rum#remove(num, name)` - Remove an entry from the MRU list.
+- `rum#normalize(num, name)` - Format an entry for addition to (or removal from) the MRU list.
 - `rum#suspend()` - Temporarily turn off MRU recordization.
 - `rum#resume()` - Re-enable MRU recordization.
+- `rum#log()` - Report the current state of rumrunner.
 - `rum#get()` - Get the current MRU list.
 - `rum#ignore(pattern)` - Add a pattern or function to the blacklist. The blacklist is used to determine whether a file should be added to the MRU list.
 - `rum#isIgnored(file)` - Called internally to determine whether a file should be added to the list. This function iterates over the blacklist patterns and function and returns 1 for files being ignored and 0 for files to include.
 - `rum#prev(count)` - Move `<count>` entries backward in the MRU list (to less recent files).
 - `rum#next(count)` - Move `<count>` entries forward in the MRU list (to more recent files).
 - `rum#move(count)` - Move `<count>` entries in the MRU list. If `<count>` is negative, it moves forward (which sounds counter-intuitive until you realize that it's adding `<count>` to the current index, which for a negative number means moving toward 0, or _the first_ entry). A positive number moves backward.
+- `rum#checkTimer()` - Deactivate the resume timeout if it is running
 
 #### Commands
 
 - `:<count>RumPrev` - Move `<count>` entries backward in the MRU list (to less recent files).
 - `:<count>RumNext` - Move `<count>` entries forward in the MRU list (to more recent files).
+- `:RumSuspend` - Suspend Rumrunner.
+- `:RumResume` - Resume Rumrunner.
 
 #### Mappings
 
 - `<count>[r` - Move `<count>` entries backward in the MRU list (to less recent files).
 - `<count>]r` - Move `<count>` entries forward in the MRU list (to more recent files).
+- `[R` - Suspend Rumrunner.
+- `]R` - Resume Rumrunner.
 
 As a slight aside, add [vim-submode](https://github.com/kana/vim-submode) to make repeated navigation simpler.
 
@@ -247,6 +259,10 @@ As a slight aside, add [vim-submode](https://github.com/kana/vim-submode) to mak
 - g:rum.ignore_diffs (Default: 1)
 
   Don't add diffs, including fugitive buffers, to the MRU list.
+
+- g:rum.log (Default: 1)
+
+  Report the status of Rumrunner ("active" or "suspended") when it changes.
 
 - g:rum.blacklist (Default: [])
 

@@ -195,6 +195,20 @@ Notice that _only_ the one file you're editing changed places. The other files
 didn't move because you didn't actually "use" them (they are not "more
 recently used").
 
+One additional navigation note: there are times when you might want to look
+through a file for reference without changing the MRU list and the default
+timeout isn't long enough to glean what you're after. There are two additional
+mappings to resume and suspend rumrunner manually, which can be used in
+conjunction with the above mappings:
+
+  `[R`   Suspend rumrunner. This will deactivate any existing timers, so that
+       if you browse to a file via `[r` and `]r` and need a bit more time
+       before rumrunner resumes, you can suspend it permanently, and then
+       reenable it later yourself.
+
+  `]R`   Resume rumrunner. Don't forget to run this if you use `[R` to disable
+       rumrunner.
+
 Ignoring Files                                  *rumrunner-ignore*
 
 It's possible that you won't ever want particular files to be in the most
@@ -251,24 +265,31 @@ which is usually relative to the current working directory.
 FUNCTIONS                                       *rumrunner-functions*
 
                                                 *rumrunner-rum#add*
-rum#add(num, name)     Add a new entry to the MRU list.
+rum#add(num, name)        Add a new entry to the MRU list.
 
                                                 *rumrunner-rum#remove*
-rum#remove(num, name)  Remove an entry from the MRU list.
+rum#remove(num, name)     Remove an entry from the MRU list.
+
+                                                *rumrunner-rum#normalize*
+rum#normalize(num, name)  Format an entry for addition to (or removal from)
+                          the MRU list.
 
                                                 *rumrunner-rum#suspend*
-rum#suspend()          Temporarily turn off MRU recordization.
+rum#suspend()             Temporarily turn off MRU recordization.
 
                                                 *rumrunner-rum#resume*
-rum#resume()           Re-enable MRU recordization.
+rum#resume()              Re-enable MRU recordization.
+
+                                                *rumrunner-rum#log*
+rum#log()                 Report the current state of rumrunner.
 
                                                 *rumrunner-rum#get*
-rum#get()              Get the current MRU list.
+rum#get()                 Get the current MRU list.
 
                                                 *rumrunner-rum#ignore*
-rum#ignore(pattern)    Add a pattern or function to the blacklist. The
-                       blacklist is used to determine whether a file should be
-                       added to the MRU list.
+rum#ignore(pattern)       Add a pattern or function to the blacklist. The
+                          blacklist is used to determine whether a file should
+                          be added to the MRU list.
 
                                                 *rumrunner-rum#isIgnored*
 rum#isIgnored(file)    Called internally to determine whether a file should be
@@ -292,6 +313,9 @@ rum#move(count)        Move `<count>` entries in the MRU list. If `<count>` is
                        number means moving toward 0, or _the first_ entry). A
                        positive number moves backward.
 
+                                                *rumrunner-rum#checkTimer*
+rum#checkTimer()       Deactivate the resume timeout if it is running
+
 COMMANDS                                        *rumrunner-commands*
 
                                                 *rumrunner-rumprev*
@@ -302,6 +326,12 @@ COMMANDS                                        *rumrunner-commands*
 <count>RumNext         Move <count> entries forward in the MRU list (to more
                        recent files).
 
+                                                *rumrunner-rumsuspend*
+RumSuspend             Suspend Rumrunner.
+
+                                                *rumrunner-rumresume*
+RumResume              Resume Rumrunner.
+
 MAPPINGS                                        *rumrunner-mappings*
 
                                                 *rumrunner-[r*
@@ -311,6 +341,12 @@ MAPPINGS                                        *rumrunner-mappings*
                                                 *rumrunner-]r*
 <count>]r              Move <count> entries forward in the MRU list (to more
                        recent files).
+
+                                                *rumrunner-[R*
+[R                     Suspend Rumrunner.
+
+                                                *rumrunner-]R*
+]R                     Resume Rumrunner.
 
 OPTIONS                                         *rumrunner-options*
 
@@ -357,6 +393,13 @@ g:rum.blacklist        The actual blacklist of patterns and functions used to
                        so you'd have to call it in an |after|/plugins script.
                        If you don't want to mess with that, you can just set
                        the initial list to something else. Default: [].
+
+                                                *rumrunner-rum.log*
+g:rum.log              Don't add diffs, including fugitive buffers, to the MRU
+                       list.
+
+                                                *rumrunner-rum.list*
+g:rum.list             The actual MRU list returned by `rum#get()`.
 
 ISSUES                                          *rumrunner-issues*
 

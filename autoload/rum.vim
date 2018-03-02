@@ -1,5 +1,8 @@
 let g:rum.list = []
 
+hi RumSuspended cterm=bold ctermfg=red
+hi RumResumed cterm=bold ctermfg=green
+
 function! rum#add(num, name)
   let num = a:num
   let name = a:name
@@ -21,13 +24,6 @@ function! rum#add(num, name)
   endif
 endfunction
 
-function! rum#normalize(num, name)
-  return {
-    \  'name': fnamemodify(a:name, ':p'),
-    \  'num': type(a:num) == 0 ? a:num : str2nr(a:num)
-    \}
-endfunction
-
 function! rum#remove(num, name)
   let num = a:num
   let name = a:name
@@ -38,15 +34,47 @@ function! rum#remove(num, name)
   endif
 endfunction
 
+function! rum#normalize(num, name)
+  return {
+    \  'name': fnamemodify(a:name, ':p'),
+    \  'num': type(a:num) == 0 ? a:num : str2nr(a:num)
+    \}
+endfunction
+
 function! rum#suspend()
+  " If suspend is explicitly called while the
+  " suspension timer is running, cancel the timer
+  " and switch to manual resume.
+  call rum#checkTimer()
+
   let g:rum.disabled = 1
+
+  if g:rum.log
+    call rum#log()
+  endif
 endfunction
 
 function! rum#resume(...)
+  " If resume is explicitly called while the
+  " suspension timer is running, cancel the timer.
+  call rum#checkTimer()
+
   let g:rum.disabled = 0
   if g:rum.list[0].num != bufnr('%')
     call rum#add(bufnr('%'), fnamemodify(bufname('%'), ':.'))
   endif
+
+  if g:rum.log
+    call rum#log()
+  endif
+endfunction
+
+function! rum#log()
+  let type = g:rum.disabled ? 'RumSuspended' : 'RumRunning'
+  let msg = g:rum.disabled ? 'Rumrunner active' : 'Rumrunner suspended'
+  exec 'echohl' type
+  echo msg
+  echohl None
 endfunction
 
 function! rum#get()
@@ -82,7 +110,10 @@ function! rum#move(count)
     return
   endif
 
-  call rum#suspend()
+  if !g:rum.disabled
+    call rum#suspend()
+  endif
+
   let current = index(g:rum.list, rum#normalize(bufnr('%'), bufname('%')))
   let index = current + a:count
 
@@ -93,9 +124,14 @@ function! rum#move(count)
   let buf = g:rum.list[ index ]
   exec 'b' buf.num
 
-  if exists('s:resume_timeout')
-    call timer_stop(s:resume_timeout)
-  endif
+  call rum#checkTimer()
 
   let s:resume_timeout = timer_start(g:rum.resume_timeout, function('rum#resume'))
+endfunction
+
+function! rum#checkTimer()
+  if exists('s:resume_timeout')
+    call timer_stop(s:resume_timeout)
+    unlet s:resume_timeout
+  endif
 endfunction

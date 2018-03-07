@@ -27,7 +27,6 @@ function! s:Init()
       call add(g:rum.list, entry)
     endif
   endfor
-  echo g:rum.list
 endfunction
 
 augroup RumRunner

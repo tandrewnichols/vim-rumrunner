@@ -1,7 +1,5 @@
-let g:rum.list = []
-
 hi RumSuspended cterm=bold ctermfg=red
-hi RumResumed cterm=bold ctermfg=green
+hi RumRunning cterm=bold ctermfg=green
 
 function! rum#add(num, name)
   let num = a:num
@@ -47,10 +45,12 @@ function! rum#suspend()
   " and switch to manual resume.
   call rum#checkTimer()
 
-  let g:rum.disabled = 1
+  if !g:rum.disabled
+    let g:rum.disabled = 1
 
-  if g:rum.log
-    call rum#log()
+    if g:rum.log
+      call rum#log()
+    endif
   endif
 endfunction
 
@@ -71,7 +71,7 @@ endfunction
 
 function! rum#log()
   let type = g:rum.disabled ? 'RumSuspended' : 'RumRunning'
-  let msg = g:rum.disabled ? 'Rumrunner active' : 'Rumrunner suspended'
+  let msg = g:rum.disabled ? 'Rumrunner suspended' : 'Rumrunner active'
   exec 'echohl' type
   echo msg
   echohl None

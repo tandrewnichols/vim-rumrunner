@@ -1,3 +1,7 @@
+if exists("g:autoloaded_rum") | finish | endif
+
+let g:autoloaded_rum = 1
+
 hi RumSuspended cterm=bold ctermfg=red
 hi RumRunning cterm=bold ctermfg=green
 

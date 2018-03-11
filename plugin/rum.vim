@@ -1,6 +1,6 @@
-if exists('g:rum_loaded') || &cp | finish | endif
+if exists('g:loaded_rum') || &cp | finish | endif
 
-let g:rum_loaded = 1
+let g:loaded_rum = 1
 
 if !exists('g:rum')
   let g:rum = {}

@@ -19,6 +19,8 @@ let g:rum = extend(g:rum, {
   \  'list': []
   \}, 'keep')
 
+let g:rum.VERSION = '0.0.1'
+
 function! s:Init()
   let initial = argv()
   for item in initial

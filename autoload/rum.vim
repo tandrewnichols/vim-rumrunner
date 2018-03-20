@@ -1,17 +1,16 @@
 hi RumSuspended cterm=bold ctermfg=red
 hi RumRunning cterm=bold ctermfg=green
 
-function! rum#add(num, name)
+function! rum#add(num)
   let num = a:num
-  let name = a:name
 
   if g:rum.disabled
     return
   endif
 
-  let entry = rum#normalize(num, name)
+  let entry = rum#normalize(num)
 
-  if !rum#isIgnored(name)
+  if !rum#isIgnored(num)
     let i = index(g:rum.list, entry)
     if i == -1
       call insert(g:rum.list, entry, 0)
@@ -22,19 +21,17 @@ function! rum#add(num, name)
   endif
 endfunction
 
-function! rum#remove(num, name)
+function! rum#remove(num)
   let num = a:num
-  let name = a:name
 
-  let i = index(g:rum.list, rum#normalize(num, name))
+  let i = index(g:rum.list, rum#normalize(num))
   if i > -1
     call remove(g:rum.list, i)
   endif
 endfunction
 
-function! rum#normalize(num, name)
+function! rum#normalize(num)
   return {
-    \  'name': fnamemodify(a:name, ':p'),
     \  'num': type(a:num) == 0 ? a:num : str2nr(a:num)
     \}
 endfunction
@@ -60,8 +57,8 @@ function! rum#resume(...)
   call rum#checkTimer()
 
   let g:rum.disabled = 0
-  if g:rum.list[0].num != bufnr('%')
-    call rum#add(bufnr('%'), fnamemodify(bufname('%'), ':.'))
+  if !len(g:rum.list) || g:rum.list[0].num != bufnr('%')
+    call rum#add(bufnr('%'))
   endif
 
   if g:rum.log
@@ -85,11 +82,12 @@ function! rum#ignore(pattern)
   call add(g:rum.blacklist, a:pattern)
 endfunction
 
-function! rum#isIgnored(file)
+function! rum#isIgnored(num)
+  let file = bufname(a:num)
   for Pattern in g:rum.blacklist
-    if type(Pattern) == 1 && match(a:file, Pattern) > -1
+    if type(Pattern) == 1 && match(file, Pattern) > -1
       return 1
-    elseif type(Pattern) == 2 && Pattern(a:file)
+    elseif type(Pattern) == 2 && Pattern(file)
       return 1
     endif
   endfor
@@ -114,7 +112,7 @@ function! rum#move(count)
     call rum#suspend()
   endif
 
-  let current = index(g:rum.list, rum#normalize(bufnr('%'), bufname('%')))
+  let current = index(g:rum.list, rum#normalize(bufnr('%')))
   let index = current + a:count
 
   if index < 0 || index > len(g:rum.list) - 1

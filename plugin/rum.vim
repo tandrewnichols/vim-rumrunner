@@ -34,17 +34,17 @@ endfunction
 augroup RumRunner
   au!
   au VimEnter * call s:Init()
-  au BufEnter,BufNew * call rum#add(expand('<abuf>'), expand('<afile>'))
-  au BufWipeout,BufDelete * call rum#remove(expand('<abuf>'), expand('<afile>'))
+  au BufEnter,BufNew * call rum#add(expand('<abuf>'))
+  au BufWipeout,BufDelete * call rum#remove(expand('<abuf>'))
 augroup END
 
+" Ignore some things
 if g:rum.ignore_diffs
   call add(g:rum.blacklist, {name -> &ft == 'diff'})
   call add(g:rum.blacklist, '\(\.diff\|\.patch\)$')
   call add(g:rum.blacklist, '^fugitive')
 endif
 
-" Ignore some things
 if g:rum.ignore_dirs
   call add(g:rum.blacklist, function('isdirectory'))
 endif

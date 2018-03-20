@@ -1,7 +1,3 @@
-if exists("g:autoloaded_rum") | finish | endif
-
-let g:autoloaded_rum = 1
-
 hi RumSuspended cterm=bold ctermfg=red
 hi RumRunning cterm=bold ctermfg=green
 
@@ -53,7 +49,7 @@ function! rum#suspend()
     let g:rum.disabled = 1
 
     if g:rum.log
-      call rum#log()
+    call timer_start(100, 'rum#log')
     endif
   endif
 endfunction
@@ -69,11 +65,11 @@ function! rum#resume(...)
   endif
 
   if g:rum.log
-    call rum#log()
+    call timer_start(100, 'rum#log')
   endif
 endfunction
 
-function! rum#log()
+function! rum#log(...)
   let type = g:rum.disabled ? 'RumSuspended' : 'RumRunning'
   let msg = g:rum.disabled ? 'Rumrunner suspended' : 'Rumrunner active'
   exec 'echohl' type

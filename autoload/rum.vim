@@ -10,7 +10,7 @@ function! rum#add(num)
 
   let entry = rum#normalize(num)
 
-  if !rum#isIgnored(num)
+  if !rum#isIgnored(entry.num)
     let i = index(g:rum.list, entry)
     if i == -1
       call insert(g:rum.list, entry, 0)

@@ -25,8 +25,8 @@ function! s:Init()
   let initial = argv()
   for item in initial
     let entry = { 'name': fnamemodify(item, ':p'), 'num': bufnr(item) }
-    if index(g:rum.list, entry) == -1
-      call add(g:rum.list, entry)
+    if index(g:rum.list) == -1
+      call add(g:rum.list)
     endif
   endfor
 endfunction

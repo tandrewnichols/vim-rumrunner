@@ -2,12 +2,12 @@ if exists('g:loaded_rum') || &cp | finish | endif
 
 let g:loaded_rum = 1
 
-if !exists('g:rum')
-  let g:rum = {}
-endif
+function! s:Set(option, default) abort
+  exec "let g:rumrunner_" . a:option "= get(g:, 'rebuff_" . a:option . "', a:default)"
+endfunction
 
 " Set some defaults
-let g:rum = extend(g:rum, {
+for [option, default] in items({
   \  'resume_timeout': 2000,
   \  'disabled': 0,
   \  'ignore_dirs': 1,
@@ -17,16 +17,18 @@ let g:rum = extend(g:rum, {
   \  'log': 1,
   \  'blacklist': [],
   \  'list': []
-  \}, 'keep')
+  \})
+  call s:Set(option, default)
+endfor
 
-let g:rum.VERSION = '0.0.1'
+let g:rumrunner_VERSION = '0.0.1'
 
 function! s:Init()
   let initial = argv()
   for item in initial
     let entry = { 'name': fnamemodify(item, ':p'), 'num': bufnr(item) }
-    if index(g:rum.list) == -1
-      call add(g:rum.list)
+    if index(g:rumrunner_list) == -1
+      call add(g:rumrunner_list)
     endif
   endfor
 endfunction
@@ -39,22 +41,22 @@ augroup RumRunner
 augroup END
 
 " Ignore some things
-if g:rum.ignore_diffs
-  call add(g:rum.blacklist, {name -> &ft == 'diff'})
-  call add(g:rum.blacklist, '\(\.diff\|\.patch\)$')
-  call add(g:rum.blacklist, '^fugitive')
+if g:rumrunner_ignore_diffs
+  call add(g:rumrunner_blacklist, {name -> &ft == 'diff'})
+  call add(g:rumrunner_blacklist, '\(\.diff\|\.patch\)$')
+  call add(g:rumrunner_blacklist, '^fugitive')
 endif
 
-if g:rum.ignore_dirs
-  call add(g:rum.blacklist, function('isdirectory'))
+if g:rumrunner_ignore_dirs
+  call add(g:rumrunner_blacklist, function('isdirectory'))
 endif
 
-if g:rum.ignore_help
-  call add(g:rum.blacklist, {name -> &ft == 'help'})
+if g:rumrunner_ignore_help
+  call add(g:rumrunner_blacklist, {name -> &ft == 'help'})
 endif
 
-if g:rum.ignore_unlisted
-  call add(g:rum.blacklist, {name -> !buflisted(name)})
+if g:rumrunner_ignore_unlisted
+  call add(g:rumrunner_blacklist, {name -> !buflisted(name)})
 endif
 
 command! -nargs=0 -count=1 RumPrev :call rum#prev(<count>)

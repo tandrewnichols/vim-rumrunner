@@ -79,7 +79,7 @@ Rumrunner provides two functions to navigate the mru list, as well as commands a
 - `rum#prev()` - Move down the most recently used list (to less recently used files). This is mapped by default to `[r` (for "rum" or "recent") and available via the `:RumPrev` command.
 - `rum#next()` - Move up the most recently used list (to more recently used files). This is mapped by default to `]r` and available via the `:RumNext` command.
 
-Both of these commands and mappings take counts to jump more than one file at a time and both call [rum#suspend()](rum-suspend), which makes Rumrunner stop changing the mru list, even as files are loaded. They then call [rum#resume()](rum-resume) in a timer (with a default timeout of 2 seconds). This timer is debounced so that, if you continue to navigate the tree, the timeout is reset, which means that you can navigate down the mru list 3 files by typing `[r` 3 times (unlike other mru implementations in which you would just bounce between the two newest files). I like a 2 second timeout because it gives me a moment to look at the file to see if it's the one I want and still move on if necessary before rum resumes, but you can configure that value via [g:rum.resume_timeout](rum-resume-timeout).
+Both of these commands and mappings take counts to jump more than one file at a time and both call [rum#suspend()](rum-suspend), which makes Rumrunner stop changing the mru list, even as files are loaded. They then call [rum#resume()](rum-resume) in a timer (with a default timeout of 2 seconds). This timer is debounced so that, if you continue to navigate the tree, the timeout is reset, which means that you can navigate down the mru list 3 files by typing `[r` 3 times (unlike other mru implementations in which you would just bounce between the two newest files). I like a 2 second timeout because it gives me a moment to look at the file to see if it's the one I want and still move on if necessary before rum resumes, but you can configure that value via g:rumrunner_resume_timeout (see [options](options)).
 
 Example:
 
@@ -236,35 +236,35 @@ As a slight aside, add [vim-submode](https://github.com/kana/vim-submode) to mak
 
 #### Options
 
-- g:rum.resume_timeout (Default: 2000)
+- g:rumrunner_resume_timeout (Default: 2000)
 
   Timer duration in milliseconds when navigating the MRU list before resuming recordization.
 
-- g:rum.disabled (Default: 0)
+- g:rumrunner_disabled (Default: 0)
 
   Internal flag used by `rum#suspend()` and `rum#resume()` to determine whether to add files to the MRU list. The only reason you'd maybe want to set this to 1 is if you wanted Rumrunner to be disabled when vim starts up and then later enabled.
 
-- g:rum.ignore_dirs (Default: 1)
+- g:rumrunner_ignore_dirs (Default: 1)
 
   Don't add directories to the MRU list. Personally, I don't think of directories as things that are "used," as I'm typically just passing through them to find a particular file, thus they are not added to the MRU list by default.
 
-- g:rum.rummignore_help (Default: 1)
+- g:rumrunner_rummignore_help (Default: 1)
 
   Don't add help entries to the MRU list.
 
-- g:rum.ignore_unlisted (Default: 1)
+- g:rumrunner_ignore_unlisted (Default: 1)
 
   Don't add unlisted buffers to the MRU list. These are almost always temp buffers and wrappers provided by other plugins that you don't want to cycle through.
 
-- g:rum.ignore_diffs (Default: 1)
+- g:rumrunner_ignore_diffs (Default: 1)
 
   Don't add diffs, including fugitive buffers, to the MRU list.
 
-- g:rum.log (Default: 1)
+- g:rumrunner_log (Default: 1)
 
   Report the status of Rumrunner ("active" or "suspended") when it changes.
 
-- g:rum.blacklist (Default: [])
+- g:rumrunner_blacklist (Default: [])
 
   The actual blacklist of patterns and functions used to determine whether a file is ignored. This is exposed publicly because calling `rum#ignore` has to be loaded so you'd have to call it in an `after/plugins` script. If you don't want to mess with that, you can just set the initial list to something else.
 

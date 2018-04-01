@@ -4,19 +4,19 @@ hi RumRunning cterm=bold ctermfg=green
 function! rum#add(num)
   let num = a:num
 
-  if g:rum.disabled
+  if g:rumrunner_disabled
     return
   endif
 
   let entry = rum#normalize(num)
 
   if !rum#isIgnored(entry.num)
-    let i = index(g:rum.list, entry)
+    let i = index(g:rumrunner_list, entry)
     if i == -1
-      call insert(g:rum.list, entry, 0)
+      call insert(g:rumrunner_list, entry, 0)
     elseif i > 0
-      let item = remove(g:rum.list, i)
-      call insert(g:rum.list, item, 0)
+      let item = remove(g:rumrunner_list, i)
+      call insert(g:rumrunner_list, item, 0)
     endif
   endif
 endfunction
@@ -24,9 +24,9 @@ endfunction
 function! rum#remove(num)
   let num = a:num
 
-  let i = index(g:rum.list, rum#normalize(num))
+  let i = index(g:rumrunner_list, rum#normalize(num))
   if i > -1
-    call remove(g:rum.list, i)
+    call remove(g:rumrunner_list, i)
   endif
 endfunction
 
@@ -42,10 +42,10 @@ function! rum#suspend()
   " and switch to manual resume.
   call rum#checkTimer()
 
-  if !g:rum.disabled
-    let g:rum.disabled = 1
+  if !g:rumrunner_disabled
+    let g:rumrunner_disabled = 1
 
-    if g:rum.log
+    if g:rumrunner_log
     call timer_start(100, 'rum#log')
     endif
   endif
@@ -56,35 +56,35 @@ function! rum#resume(...)
   " suspension timer is running, cancel the timer.
   call rum#checkTimer()
 
-  let g:rum.disabled = 0
-  if !len(g:rum.list) || g:rum.list[0].num != bufnr('%')
+  let g:rumrunner_disabled = 0
+  if !len(g:rumrunner_list) || g:rumrunner_list[0].num != bufnr('%')
     call rum#add(bufnr('%'))
   endif
 
-  if g:rum.log
+  if g:rumrunner_log
     call timer_start(100, 'rum#log')
   endif
 endfunction
 
 function! rum#log(...)
-  let type = g:rum.disabled ? 'RumSuspended' : 'RumRunning'
-  let msg = g:rum.disabled ? 'Rumrunner suspended' : 'Rumrunner active'
+  let type = g:rumrunner_disabled ? 'RumSuspended' : 'RumRunning'
+  let msg = g:rumrunner_disabled ? 'Rumrunner suspended' : 'Rumrunner active'
   exec 'echohl' type
   echo msg
   echohl None
 endfunction
 
 function! rum#get()
-  return g:rum.list
+  return g:rumrunner_list
 endfunction
 
 function! rum#ignore(pattern)
-  call add(g:rum.blacklist, a:pattern)
+  call add(g:rumrunner_blacklist, a:pattern)
 endfunction
 
 function! rum#isIgnored(num)
   let file = bufname(a:num)
-  for Pattern in g:rum.blacklist
+  for Pattern in g:rumrunner_blacklist
     if type(Pattern) == 1 && match(file, Pattern) > -1
       return 1
     elseif type(Pattern) == 2 && Pattern(file)
@@ -104,27 +104,27 @@ function! rum#next(count)
 endfunction
 
 function! rum#move(count)
-  if len(g:rum.list) == 1
+  if len(g:rumrunner_list) == 1
     return
   endif
 
-  if !g:rum.disabled
+  if !g:rumrunner_disabled
     call rum#suspend()
   endif
 
-  let current = index(g:rum.list, rum#normalize(bufnr('%')))
+  let current = index(g:rumrunner_list, rum#normalize(bufnr('%')))
   let index = current + a:count
 
-  if index < 0 || index > len(g:rum.list) - 1
+  if index < 0 || index > len(g:rumrunner_list) - 1
     return
   endif
 
-  let buf = g:rum.list[ index ]
+  let buf = g:rumrunner_list[ index ]
   exec 'b' buf.num
 
   call rum#checkTimer()
 
-  let s:resume_timeout = timer_start(g:rum.resume_timeout, function('rum#resume'))
+  let s:resume_timeout = timer_start(g:rumrunner_resume_timeout, function('rum#resume'))
 endfunction
 
 function! rum#checkTimer()

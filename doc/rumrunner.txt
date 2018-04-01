@@ -125,7 +125,7 @@ by typing `[r` 3 times (unlike other MRU implementations in which you would
 just bounce between the two newest files). I like a 2 second timeout because
 it gives me a moment to look at the file to see if it's the one I want and
 still move on if necessary before rum resumes, but you can configure that
-value via g:rum.resume_timeout (see |rumrunner-resume_timeout|).
+value via g:rumrunner_resume_timeout (see |rumrunner_resume_timeout|).
 
 Example:
 
@@ -350,56 +350,62 @@ MAPPINGS                                        *rumrunner-mappings*
 
 OPTIONS                                         *rumrunner-options*
 
-                                                *rumrunner-rum.resume_timeout*
-g:rum.resume_timeout   Timer duration in milliseconds when navigating the MRU
-                       list before resuming recordization.
-                       Default: 2000.
+                                                *rumrunner_resume_timeout*
+g:rumrunner_resume_timeout   Timer duration in milliseconds when navigating
+                             the MRU list before resuming recordization.
+                             Default: 2000.
 
-                                                *rumrunner-rum.disabled*
-g:rum.disabled         Internal flag used by `rum#suspend()` and `rum#resume()`
-                       to determine whether to add files to the MRU list. The
-                       only reason you'd maybe want to set this to 1 is if you
-                       wanted Rumrunner to be disabled when vim starts up and
-                       then later enabled.
-                       Default: 0.
+                                                *rumrunner_disabled*
+g:rumrunner_disabled         Internal flag used by `rum#suspend()` and
+                             `rum#resume()` to determine whether to add files
+                             to the MRU list. The only reason you'd maybe want
+                             to set this to 1 is if you wanted Rumrunner to be
+                             disabled when vim starts up and then later
+                             enabled.
+                             Default: 0.
 
-                                                *rumrunner-rum.ignore_dirs*
-g:rum.ignore_dirs      Don't add directories to the MRU list. Personally, I
-                       don't think of directories as things that are "used," as
-                       I'm typically just passing through them to find a
-                       particular file, thus they are not added to the MRU list
-                       by default.
-                       Default: 1.
+                                                *rumrunner_ignore_dirs*
+g:rumrunner_ignore_dirs      Don't add directories to the MRU list.
+                             Personally, I don't think of directories as
+                             things that are "used," as I'm typically just
+                             passing through them to find a particular file,
+                             thus they are not added to the MRU list by
+                             default.
+                             Default: 1.
 
-                                                *rumrunner-rum.ignore_help*
-g:rum.ignore_help      Don't add help entries to the MRU list.
-                       Default: 1.
+                                                *rumrunner_ignore_help*
+g:rumrunner_ignore_help      Don't add help entries to the MRU list.
+                             Default: 1.
 
-                                                *rumrunner-rum.ignore_unlisted*
-g:rum.ignore_unlisted  Don't add unlisted buffers to the MRU list. These are
-                       almost always temp buffers and wrappers provided by
-                       other plugins that you don't want to cycle through.
-                       Default: 1.
+                                                *rumrunner_ignore_unlisted*
+g:rumrunner_ignore_unlisted  Don't add unlisted buffers to the MRU list. These
+                             are almost always temp buffers and wrappers
+                             provided by other plugins that you don't want to
+                             cycle through.
+                             Default: 1.
 
-                                                *rumrunner-rum.ignore_diffs*
-g:rum.ignore_diffs     Don't add diffs, including fugitive buffers, to the MRU
-                       list.
-                       Default: 1.
+                                                *rumrunner_ignore_diffs*
+g:rumrunner_ignore_diffs     Don't add diffs, including fugitive buffers, to
+                             the MRU list.
+                             Default: 1.
 
-                                                *rumrunner-rum.blacklist*
-g:rum.blacklist        The actual blacklist of patterns and functions used to
-                       determine whether a file is ignored. This is exposed
-                       publicly because calling `rum#ignore` has to be loaded
-                       so you'd have to call it in an |after|/plugins script.
-                       If you don't want to mess with that, you can just set
-                       the initial list to something else. Default: [].
+                                                *rumrunner_blacklist*
+g:rumrunner_blacklist        The actual blacklist of patterns and functions
+                             used to determine whether a file is ignored. This
+                             is exposed publicly because calling `rum#ignore`
+                             has to be loaded so you'd have to call it in an
+                             |after|/plugins script. If you don't want to mess
+                             with that, you can just set the initial list to
+                             something else.
+                             Default: [].
 
-                                                *rumrunner-rum.log*
-g:rum.log              Don't add diffs, including fugitive buffers, to the MRU
-                       list.
+                                                *rumrunner_log*
+g:rumrunner_log              Don't add diffs, including fugitive buffers, to
+                             the MRU list.
+                             Default: 1.
 
-                                                *rumrunner-rum.list*
-g:rum.list             The actual MRU list returned by `rum#get()`.
+                                                *rumrunner_list*
+g:rumrunner_list             The actual MRU list returned by `rum#get()`.
 
 ISSUES                                          *rumrunner-issues*
 

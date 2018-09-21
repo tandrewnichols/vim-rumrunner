@@ -265,13 +265,13 @@ which is usually relative to the current working directory.
 FUNCTIONS                                       *rumrunner-functions*
 
                                                 *rumrunner-rum#add*
-rum#add(num, name)        Add a new entry to the MRU list.
+rum#add(num)        Add a new entry to the MRU list.
 
                                                 *rumrunner-rum#remove*
-rum#remove(num, name)     Remove an entry from the MRU list.
+rum#remove(num)     Remove an entry from the MRU list.
 
                                                 *rumrunner-rum#normalize*
-rum#normalize(num, name)  Format an entry for addition to (or removal from)
+rum#normalize(num)  Format an entry for addition to (or removal from)
                           the MRU list.
 
                                                 *rumrunner-rum#suspend*

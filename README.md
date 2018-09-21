@@ -204,9 +204,9 @@ endfunction
 
 #### Functions
 
-- `rum#add(num, name)` - Add a new entry to the MRU list.
-- `rum#remove(num, name)` - Remove an entry from the MRU list.
-- `rum#normalize(num, name)` - Format an entry for addition to (or removal from) the MRU list.
+- `rum#add(num)` - Add a new entry to the MRU list.
+- `rum#remove(num)` - Remove an entry from the MRU list.
+- `rum#normalize(num)` - Format an entry for addition to (or removal from) the MRU list.
 - `rum#suspend()` - Temporarily turn off MRU recordization.
 - `rum#resume()` - Re-enable MRU recordization.
 - `rum#log()` - Report the current state of rumrunner.

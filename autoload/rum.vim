@@ -107,6 +107,9 @@ endfunction
 
 function! rum#move(count) abort
   if len(g:rumrunner_list) == 1
+    if bufnr('%') != g:rumrunner_list[0].num
+      exec 'b' g:rumrunner_list[0].num
+    endif
     return
   endif
 

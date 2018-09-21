@@ -45,9 +45,7 @@ function! rum#suspend() abort
   if !g:rumrunner_disabled
     let g:rumrunner_disabled = 1
 
-    if g:rumrunner_log
-    call timer_start(100, 'rum#log')
-    endif
+    call rum#startTimer()
   endif
 endfunction
 
@@ -61,6 +59,10 @@ function! rum#resume(...) abort
     call rum#add(bufnr('%'))
   endif
 
+  call rum#startTimer()
+endfunction
+
+function! rum#startTimer() abort
   if g:rumrunner_log
     call timer_start(100, 'rum#log')
   endif

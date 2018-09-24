@@ -32,7 +32,8 @@
   9.  Options                                   |rumrunner-options|
   10. Issues                                    |rumrunner-issues|
   11. Contributing                              |rumrunner-contributing|
-  12. License                                   |rumrunner-license|
+  12. Version                                   |rumrunner-version|
+  13. License                                   |rumrunner-license|
 
 OVERVIEW                                        *rumrunner-overview*
 
@@ -420,7 +421,7 @@ lot of time on a patch.
 
 VERSION                                         *rumrunner-version*
 
-Version 1.0.0
+Version 1.0.1
 
 LICENSE                                         *rumrunner-license*
 

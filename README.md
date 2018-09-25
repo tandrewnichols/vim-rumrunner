@@ -182,19 +182,16 @@ Buffers are automically removed from the MRU list on `BufWipeout` and `BufDelete
 
 #### Access the list
 
-The main reason you might include Rumrunner as a dependency is to access it's MRU list (for whatever sordid purpose you might have). Just call `rum#get()` and a list of dictionariies will be returned. Each dictionary has two properties:
-
-  - num - the buffer number
-  - name - the buffer name
-
-Note that the buffer name is in the form that `expand("<afile>")` returns, which is usually relative to the current working directory.
+The main reason you might include Rumrunner as a dependency is to access it's MRU list (for whatever sordid purpose you might have). Just call `rum#get()` and a list of buffer numbers will be returned.
 
 Example:
 
 ```vim
 function! DoSomething()
   let list = rum#get()
-  " Do something with `list`
+  for bufnumber in list
+    echo bufname(bufnumber)
+  endfor
 endfunction
 ```
 

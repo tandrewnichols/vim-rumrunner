@@ -24,9 +24,8 @@ endfor
 let g:rumrunner_VERSION = '1.0.1'
 
 function! s:Init()
-  let initial = argv()
-  for item in initial
-    let entry = { 'num': bufnr(item) }
+  for item in argv()
+    let entry = bufnr(item)
     if index(g:rumrunner_list, entry) == -1
       call add(g:rumrunner_list, entry)
     endif

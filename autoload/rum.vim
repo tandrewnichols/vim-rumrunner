@@ -10,7 +10,7 @@ function! rum#add(num) abort
 
   let entry = rum#normalize(num)
 
-  if !rum#isIgnored(entry.num)
+  if !rum#isIgnored(entry)
     let i = index(g:rumrunner_list, entry)
     if i == -1
       call insert(g:rumrunner_list, entry, 0)
@@ -31,9 +31,7 @@ function! rum#remove(num) abort
 endfunction
 
 function! rum#normalize(num) abort
-  return {
-    \  'num': type(a:num) == 0 ? a:num : str2nr(a:num)
-    \}
+  return type(a:num) == 0 ? a:num : str2nr(a:num)
 endfunction
 
 function! rum#suspend() abort
@@ -44,7 +42,6 @@ function! rum#suspend() abort
 
   if !g:rumrunner_disabled
     let g:rumrunner_disabled = 1
-
     call rum#startTimer()
   endif
 endfunction
@@ -55,7 +52,7 @@ function! rum#resume(...) abort
   call rum#checkTimer()
 
   let g:rumrunner_disabled = 0
-  if !len(g:rumrunner_list) || g:rumrunner_list[0].num != bufnr('%')
+  if !len(g:rumrunner_list) || g:rumrunner_list[0] != bufnr('%')
     call rum#add(bufnr('%'))
   endif
 
@@ -107,8 +104,8 @@ endfunction
 
 function! rum#move(count) abort
   if len(g:rumrunner_list) == 1
-    if bufnr('%') != g:rumrunner_list[0].num
-      exec 'b' g:rumrunner_list[0].num
+    if bufnr('%') != g:rumrunner_list[0]
+      exec 'b' g:rumrunner_list[0]
     endif
     return
   endif
@@ -125,7 +122,7 @@ function! rum#move(count) abort
   endif
 
   let buf = g:rumrunner_list[ index ]
-  exec 'b' buf.num
+  exec 'b' buf
 
   call rum#checkTimer()
 

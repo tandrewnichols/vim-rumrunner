@@ -168,6 +168,18 @@ It's possible that you won't ever want particular files to be in the most recent
 
 If you're doing something that might create an unwanted entry in the mru list, you can, yourself, suspend Rumrunner by calling `rum#suspend()`, but note that you will need to later call `rum#resume()` to reenable Rumrunner, otherwise, files will never be added to the MRU list. Note also that `rum#resume()` checks whether the current buffer is first in the MRU list and puts it there if it's not, which means you shouldn't resume until you are in a buffer that you want to be included in the MRU list.
 
+#### View, navigate, and order the list
+
+As of v2.0.0, rumrunner provides it's own buffer for viewing, navigating, and ordering the current mru list. Use `:RumList` to open the current mru list in a vertical split (`:RumList!` for horizontal). There you'll be presented with rumrunner's current buffer list, including the file name associated with each buffer. Within that buffer, use the following mappings:
+
+- `q` - Close the mru list buffer.
+- `d` - Remove the entry under the cursor from the list.
+- `-` - Move the entry under the cursor down.
+- `+` - Move the entry under the cursor up.
+- `<CR>` - Open the entry under the cursor.
+
+Leaving the buffer (e.g. via `<C-w>h`) will also close it.
+
 ## Plugin Authors
 
 If you're just a general user, the above is probably more than sufficient to make the most of Rumrunner. If you're writing a plugin that could benefit from an MRU list and you want to use Rumrunner, here's some other stuff you might want to know.
@@ -201,6 +213,8 @@ endfunction
 
 #### Functions
 
+These functions are primarily for internal use. You should prefer to use the commands and mappings unless you're trying to build some sort of integration that makes use of rumrunner.
+
 - `rum#add(num)` - Add a new entry to the MRU list.
 - `rum#remove(num)` - Remove an entry from the MRU list.
 - `rum#normalize(num)` - Format an entry for addition to (or removal from) the MRU list.
@@ -214,6 +228,20 @@ endfunction
 - `rum#next(count)` - Move `<count>` entries forward in the MRU list (to more recent files).
 - `rum#move(count)` - Move `<count>` entries in the MRU list. If `<count>` is negative, it moves forward (which sounds counter-intuitive until you realize that it's adding `<count>` to the current index, which for a negative number means moving toward 0, or _the first_ entry). A positive number moves backward.
 - `rum#checkTimer()` - Deactivate any running timeouts
+- `rum#list(horizontal)` - Open the mru list in a buffer, vertically by default, horizontally if `horizontal` is passed.
+- `rum#configure()` - Configure the mru list buffer. This sets local settings, sets up the BufLeave autocommand, and configures local mappings.
+- `rum#map(lhs, rhs)` - Map lhs to rhs within the mru list buffer. If you want to create additional mappings, you can tap into this via:
+
+    ```vim
+    augroup RumrunnerOpen
+      au!
+      au BufEnter \[Rumrunner\] call rum#map('h', '<C-w>h')
+    augroup END
+    ```
+
+- `rum#activate()` - Activates the buffer under the cursor in the mru list buffer.
+- `rum#getNumFromLine()` - Extacts the buffer number from the current line in the mru list bufer.
+- `rum#reorder(dir)` - Reorders the mru list based on the current line in the mru list buffer. When `dir` is negative, the current entry is moved down in the list. When it is positive, it's moved up. If it's 0, the entry is removed from the list.
 
 #### Commands
 
@@ -221,6 +249,7 @@ endfunction
 - `:<count>RumNext` - Move `<count>` entries forward in the MRU list (to more recent files).
 - `:RumSuspend` - Suspend Rumrunner.
 - `:RumResume` - Resume Rumrunner.
+- `:RumList` - Open the [Rumrunner] buffer that shows the current mru list.
 
 #### Mappings
 
@@ -228,6 +257,13 @@ endfunction
 - `<count>]r` - Move `<count>` entries forward in the MRU list (to more recent files).
 - `[R` - Suspend Rumrunner.
 - `]R` - Resume Rumrunner.
+- `q` - Close the mru list buffer.\*
+- `d` - Remove the entry under the cursor from the list.\*
+- `-` - Move the entry under the cursor down.\*
+- `+` - Move the entry under the cursor up.\*
+- `<CR>` - Open the entry under the cursor.\*
+
+\* Only available within the mru list buffer.
 
 As a slight aside, add [vim-submode](https://github.com/kana/vim-submode) to make repeated navigation simpler.
 
@@ -264,6 +300,26 @@ As a slight aside, add [vim-submode](https://github.com/kana/vim-submode) to mak
 - g:rumrunner_ignorelist (Default: [])
 
   The actual ignorelist of patterns and functions used to determine whether a file is ignored. This is exposed publicly because calling `rum#ignore` has to be loaded so you'd have to call it in an `after/plugins` script. If you don't want to mess with that, you can just set the initial list to something else.
+
+- g:rumrunner_close_mapping (Default: 'q')
+
+  {lhs} mapping to close the mru list buffer.
+
+- g:rumrunner_select_mapping (Default: '<CR>')
+
+  {lhs} mapping to select the current entry in the mru list buffer.
+
+- g:rumrunner_move_down_mapping (Default: '-')
+
+  {lhs} mapping to move the current entry down in the mru list buffer.
+
+- g:rumrunner_move_up_mapping (Default: '+')
+
+  {lhs} mapping to move the current entry up in the mru list buffer.
+
+- g:rumrunner_remove_mapping (Default: 'd')
+
+  {lhs} mapping to remove the current entry from the mru list buffer.
 
 ## Fun Facts
 

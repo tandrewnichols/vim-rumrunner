@@ -26,6 +26,7 @@
       5.1 Adding Files                          |rumrunner-add|
       5.2 Removing Files                        |rumrunner-remove|
       5.3 Accessing the MRU List                |rumrunner-access|
+      5.4 Viewing the MRU List                  |rumrunner-view|
   6.  Functions                                 |rumrunner-functions|
   7.  Commands                                  |rumrunner-commands|
   8.  Mappings                                  |rumrunner-mappings|
@@ -231,6 +232,25 @@ checks whether the current buffer is first in the MRU list and puts it there
 if it's not, which means you shouldn't resume until you are in a buffer that
 you want to be included in the MRU list.
 
+View                                            *rumrunner-view*
+
+As of version 2.0.0, you can view rumrunner's internal list via `:RumList`,
+which opens in a vertical split by default (you can override this with
+`:RumList!`). Within the buffer that opens, you can use the following mappings
+to manipulate the mru list:
+
+  `q`     Close the mru list buffer.
+
+  `d`     Remove the entry under the cursor from the list.
+
+  `-`     Move the entry under the cursor down.
+
+  `+`     Move the entry under the cursor up.
+
+  `<CR>`  Open the entry under the cursor.
+
+Leaving the buffer (e.g. via `<C-w>h`) will also close it.
+
 PLUGIN AUTHORS                                  *rumrunner-authors*
 
 If you're just a general user, the above is probably more than sufficient to
@@ -258,48 +278,52 @@ and a list of buffer numbers will be returned.
 
 FUNCTIONS                                       *rumrunner-functions*
 
-                                                *rumrunner-rum#add*
+These functions are primarily for internal use. You should prefer to use the
+commands and mappings unless you're trying to build some sort of integration
+that makes use of rumrunner.
+
+                                                *rum#add()*
 rum#add(num)        Add a new entry to the MRU list.
 
-                                                *rumrunner-rum#remove*
+                                                *rum#remove()*
 rum#remove(num)     Remove an entry from the MRU list.
 
-                                                *rumrunner-rum#normalize*
+                                                *rum#normalize()*
 rum#normalize(num)  Format an entry for addition to (or removal from)
                           the MRU list.
 
-                                                *rumrunner-rum#suspend*
+                                                *rum#suspend()*
 rum#suspend()             Temporarily turn off MRU recordization.
 
-                                                *rumrunner-rum#resume*
+                                                *rum#resume()*
 rum#resume()              Re-enable MRU recordization.
 
-                                                *rumrunner-rum#log*
+                                                *rum#log()*
 rum#log()                 Report the current state of rumrunner.
 
-                                                *rumrunner-rum#get*
+                                                *rum#get()*
 rum#get()                 Get the current MRU list.
 
-                                                *rumrunner-rum#ignore*
+                                                *rum#ignore()*
 rum#ignore(pattern)       Add a pattern or function to the ignorelist. The
                           ignorelist is used to determine whether a file should
                           be added to the MRU list.
 
-                                                *rumrunner-rum#isIgnored*
+                                                *rum#isIgnored()*
 rum#isIgnored(file)    Called internally to determine whether a file should be
                        added to the list. This function iterates over the
                        ignorelist patterns and function and returns 1 for files
                        being ignored and 0 for files to include.
 
-                                                *rumrunner-rum#prev*
+                                                *rum#prev()*
 rum#prev(count)        Move `<count>` entries backward in the MRU list (to less
                        recent files).
 
-                                                *rumrunner-rum#next*
+                                                *rum#next()*
 rum#next(count)        Move `<count>` entries forward in the MRU list (to more
                        recent files).
 
-                                                *rumrunner-rum#move*
+                                                *rum#move()*
 rum#move(count)        Move `<count>` entries in the MRU list. If `<count>` is
                        negative, it moves forward (which sounds
                        counter-intuitive until you realize that it's adding
@@ -307,24 +331,69 @@ rum#move(count)        Move `<count>` entries in the MRU list. If `<count>` is
                        number means moving toward 0, or _the first_ entry). A
                        positive number moves backward.
 
-                                                *rumrunner-rum#checkTimer*
+                                                *rum#checkTimer()*
 rum#checkTimer()       Deactivate any running timeouts.
+
+                                                *rum#list()*
+
+                                                *rum#configure()*
+
+                                                *rum#map()*
+
+                                                *rum#activate()*
+
+                                                *rum#getNumFromLine()*
+
+                                                *rum#reorder()*
+
+rum#list(horizontal)   Open the mru list in a buffer, vertically by default,
+                       horizontally if `horizontal` is passed.
+
+rum#configure()        Configure the mru list buffer. This sets local settings,
+                       sets up the BufLeave autocommand, and configures local
+                       mappings.
+
+rum#map(lhs, rhs)      Map lhs to rhs within the mru list buffer. If you want
+                       to create additional mappings, you can tap into this
+                       via: >
+
+                       augroup RumrunnerOpens
+                         au!
+                         au BufEnter \[Rumrunner\] call rum#map('h', '<C-w>h')
+                       augroup END
+<
+
+rum#activate()         Activates the buffer under the cursor in the mru list
+                       buffer.
+
+rum#getNumFromLine()   Extacts the buffer number from the current line in the
+                       mru list bufer.
+
+rum#reorder(dir)       Reorders the mru list based on the current line in the
+                       mru list buffer. When `dir` is negative, the current
+                       entry is moved down in the list. When it is positive,
+                       it's moved up. If it's 0, the entry is removed from the
+                       list.
 
 COMMANDS                                        *rumrunner-commands*
 
-                                                *rumrunner-rumprev*
+                                                *:RumPrev*
 <count>RumPrev         Move <count> entries backward in the MRU list (to less
                        recent files).
 
-                                                *rumrunner-rumnext*
+                                                *:RumNext*
 <count>RumNext         Move <count> entries forward in the MRU list (to more
                        recent files).
 
-                                                *rumrunner-rumsuspend*
+                                                *:RumSuspend*
 RumSuspend             Suspend Rumrunner.
 
-                                                *rumrunner-rumresume*
+                                                *:RumResume*
 RumResume              Resume Rumrunner.
+
+                                                *:RumList*
+RumList[!]             Open the [Rumrunner] buffer that shows the current mru
+                       list.
 
 MAPPINGS                                        *rumrunner-mappings*
 
@@ -341,6 +410,23 @@ MAPPINGS                                        *rumrunner-mappings*
 
                                                 *rumrunner-]R*
 ]R                     Resume Rumrunner.
+
+                                                *rumrunner-q*
+q                      Close the mru list buffer.*
+
+                                                *rumrunner-d*
+d                      Remove the entry under the cursor from the list.*
+
+                                                *rumrunner--*
+-                      Move the entry under the cursor down.*
+
+                                                *rumrunner-+*
++                      Move the entry under the cursor up.*
+
+                                                *rumrunner-<CR>*
+<CR>                   Open the entry under the cursor.*
+
+* Only available within the mru list buffer.
 
 OPTIONS                                         *rumrunner-options*
 
@@ -400,6 +486,33 @@ g:rumrunner_log              Don't add diffs, including fugitive buffers, to
 
                                                 *rumrunner_list*
 g:rumrunner_list             The actual MRU list returned by `rum#get()`.
+
+                                                *rumrunner_close_mapping*
+g:rumrunner_close_mapping    {lhs} mapping to close the mru list buffer.
+                             Default: `q`
+
+                                                *rumrunner_select_mapping*
+g:rumrunner_select_mapping   {lhs} mapping to select the current entry in the
+                             mru list buffer.
+                             Default: `<CR>`
+
+                                                *rumrunner_move_down_mapping*
+
+g:rumrunner_move_down_mapping {lhs} mapping to move the current entry down in
+                              the mru list buffer.
+                              Default: `-`
+
+                                                *rumrunner_move_up_mapping*
+
+g:rumrunner_move_up_mapping  {lhs} mapping to move the current entry up in the
+                             mru list buffer.
+                             Default: `+`
+
+                                                *rumrunner_remove_mapping*
+
+g:rumrunner_remove_mapping   {lhs} mapping to remove the current entry from the
+                             mru list buffer.
+                             Default: `d`
 
 ISSUES                                          *rumrunner-issues*
 

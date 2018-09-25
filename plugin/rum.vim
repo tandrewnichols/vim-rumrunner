@@ -16,7 +16,12 @@ for [option, default] in items({
   \  'ignore_diffs': 1,
   \  'log': 1,
   \  'ignorelist': [],
-  \  'list': []
+  \  'list': [],
+  \  'close_mapping': 'q',
+  \  'select_mapping': "\<CR>",
+  \  'move_down_mapping': '-',
+  \  'move_up_mapping': '+',
+  \  'remove_mapping': 'd'
   \})
   call s:Set(option, default)
 endfor
@@ -62,6 +67,7 @@ command! -nargs=0 -count=1 RumPrev :call rum#prev(<count>)
 command! -nargs=0 -count=1 RumNext :call rum#next(<count>)
 command! -nargs=0 RumSuspend :call rum#suspend()
 command! -nargs=0 RumResume :call rum#resume()
+command! -nargs=0 -bang RumList :call rum#list(<bang>0)
 
 nnoremap <Plug>RumPrev :call rum#prev(v:count ? v:count : 1)<CR>
 nnoremap <Plug>RumNext :call rum#next(v:count ? v:count : 1)<CR>

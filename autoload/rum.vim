@@ -61,7 +61,7 @@ endfunction
 
 function! rum#startTimer() abort
   if g:rumrunner_log
-    call timer_start(100, 'rum#log')
+    let s:log_timeout = timer_start(100, 'rum#log')
   endif
 endfunction
 
@@ -133,5 +133,10 @@ function! rum#checkTimer() abort
   if exists('s:resume_timeout')
     call timer_stop(s:resume_timeout)
     unlet s:resume_timeout
+  endif
+
+  if exists('s:log_timeout')
+    call timer_stop(s:log_timeout)
+    unlet s:log_timeout
   endif
 endfunction

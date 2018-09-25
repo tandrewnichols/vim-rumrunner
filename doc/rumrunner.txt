@@ -308,7 +308,7 @@ rum#move(count)        Move `<count>` entries in the MRU list. If `<count>` is
                        positive number moves backward.
 
                                                 *rumrunner-rum#checkTimer*
-rum#checkTimer()       Deactivate the resume timeout if it is running
+rum#checkTimer()       Deactivate any running timeouts.
 
 COMMANDS                                        *rumrunner-commands*
 

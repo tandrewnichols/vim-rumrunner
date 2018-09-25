@@ -213,7 +213,7 @@ endfunction
 - `rum#prev(count)` - Move `<count>` entries backward in the MRU list (to less recent files).
 - `rum#next(count)` - Move `<count>` entries forward in the MRU list (to more recent files).
 - `rum#move(count)` - Move `<count>` entries in the MRU list. If `<count>` is negative, it moves forward (which sounds counter-intuitive until you realize that it's adding `<count>` to the current index, which for a negative number means moving toward 0, or _the first_ entry). A positive number moves backward.
-- `rum#checkTimer()` - Deactivate the resume timeout if it is running
+- `rum#checkTimer()` - Deactivate any running timeouts
 
 #### Commands
 

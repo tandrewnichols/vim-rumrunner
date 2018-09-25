@@ -3,7 +3,7 @@ if exists('g:loaded_rum') || &cp | finish | endif
 let g:loaded_rum = 1
 
 function! s:Set(option, default) abort
-  exec "let g:rumrunner_" . a:option "= get(g:, 'rebuff_" . a:option . "', a:default)"
+  exec "let g:rumrunner_" . a:option "= get(g:, 'rumrunner_" . a:option . "', a:default)"
 endfunction
 
 " Set some defaults

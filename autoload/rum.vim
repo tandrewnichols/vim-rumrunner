@@ -78,12 +78,12 @@ function! rum#get() abort
 endfunction
 
 function! rum#ignore(pattern) abort
-  call add(g:rumrunner_blacklist, a:pattern)
+  call add(g:rumrunner_ignorelist, a:pattern)
 endfunction
 
 function! rum#isIgnored(num) abort
   let file = bufname(a:num)
-  for Pattern in g:rumrunner_blacklist
+  for Pattern in g:rumrunner_ignorelist
     if type(Pattern) == 1 && match(file, Pattern) > -1
       return 1
     elseif type(Pattern) == 2 && Pattern(file)

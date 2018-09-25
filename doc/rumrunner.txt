@@ -281,14 +281,14 @@ rum#log()                 Report the current state of rumrunner.
 rum#get()                 Get the current MRU list.
 
                                                 *rumrunner-rum#ignore*
-rum#ignore(pattern)       Add a pattern or function to the blacklist. The
-                          blacklist is used to determine whether a file should
+rum#ignore(pattern)       Add a pattern or function to the ignorelist. The
+                          ignorelist is used to determine whether a file should
                           be added to the MRU list.
 
                                                 *rumrunner-rum#isIgnored*
 rum#isIgnored(file)    Called internally to determine whether a file should be
                        added to the list. This function iterates over the
-                       blacklist patterns and function and returns 1 for files
+                       ignorelist patterns and function and returns 1 for files
                        being ignored and 0 for files to include.
 
                                                 *rumrunner-rum#prev*
@@ -383,8 +383,8 @@ g:rumrunner_ignore_diffs     Don't add diffs, including fugitive buffers, to
                              the MRU list.
                              Default: 1.
 
-                                                *rumrunner_blacklist*
-g:rumrunner_blacklist        The actual blacklist of patterns and functions
+                                                *rumrunner_ignorelist*
+g:rumrunner_ignorelist       The actual ignorelist of patterns and functions
                              used to determine whether a file is ignored. This
                              is exposed publicly because calling `rum#ignore`
                              has to be loaded so you'd have to call it in an

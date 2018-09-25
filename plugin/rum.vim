@@ -15,7 +15,7 @@ for [option, default] in items({
   \  'ignore_unlisted': 1,
   \  'ignore_diffs': 1,
   \  'log': 1,
-  \  'blacklist': [],
+  \  'ignorelist': [],
   \  'list': []
   \})
   call s:Set(option, default)
@@ -41,21 +41,21 @@ augroup END
 
 " Ignore some things
 if g:rumrunner_ignore_diffs
-  call add(g:rumrunner_blacklist, {name -> &ft == 'diff'})
-  call add(g:rumrunner_blacklist, '\(\.diff\|\.patch\)$')
-  call add(g:rumrunner_blacklist, '^fugitive')
+  call add(g:rumrunner_ignorelist, {name -> &ft == 'diff'})
+  call add(g:rumrunner_ignorelist, '\(\.diff\|\.patch\)$')
+  call add(g:rumrunner_ignorelist, '^fugitive')
 endif
 
 if g:rumrunner_ignore_dirs
-  call add(g:rumrunner_blacklist, function('isdirectory'))
+  call add(g:rumrunner_ignorelist, function('isdirectory'))
 endif
 
 if g:rumrunner_ignore_help
-  call add(g:rumrunner_blacklist, {name -> &ft == 'help'})
+  call add(g:rumrunner_ignorelist, {name -> &ft == 'help'})
 endif
 
 if g:rumrunner_ignore_unlisted
-  call add(g:rumrunner_blacklist, {name -> !buflisted(name)})
+  call add(g:rumrunner_ignorelist, {name -> !buflisted(name)})
 endif
 
 command! -nargs=0 -count=1 RumPrev :call rum#prev(<count>)

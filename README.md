@@ -208,8 +208,8 @@ endfunction
 - `rum#resume()` - Re-enable MRU recordization.
 - `rum#log()` - Report the current state of rumrunner.
 - `rum#get()` - Get the current MRU list.
-- `rum#ignore(pattern)` - Add a pattern or function to the blacklist. The blacklist is used to determine whether a file should be added to the MRU list.
-- `rum#isIgnored(file)` - Called internally to determine whether a file should be added to the list. This function iterates over the blacklist patterns and function and returns 1 for files being ignored and 0 for files to include.
+- `rum#ignore(pattern)` - Add a pattern or function to the ignorelist. The ignorelist is used to determine whether a file should be added to the MRU list.
+- `rum#isIgnored(file)` - Called internally to determine whether a file should be added to the list. This function iterates over the ignorelist patterns and function and returns 1 for files being ignored and 0 for files to include.
 - `rum#prev(count)` - Move `<count>` entries backward in the MRU list (to less recent files).
 - `rum#next(count)` - Move `<count>` entries forward in the MRU list (to more recent files).
 - `rum#move(count)` - Move `<count>` entries in the MRU list. If `<count>` is negative, it moves forward (which sounds counter-intuitive until you realize that it's adding `<count>` to the current index, which for a negative number means moving toward 0, or _the first_ entry). A positive number moves backward.
@@ -261,13 +261,13 @@ As a slight aside, add [vim-submode](https://github.com/kana/vim-submode) to mak
 
   Report the status of Rumrunner ("active" or "suspended") when it changes.
 
-- g:rumrunner_blacklist (Default: [])
+- g:rumrunner_ignorelist (Default: [])
 
-  The actual blacklist of patterns and functions used to determine whether a file is ignored. This is exposed publicly because calling `rum#ignore` has to be loaded so you'd have to call it in an `after/plugins` script. If you don't want to mess with that, you can just set the initial list to something else.
+  The actual ignorelist of patterns and functions used to determine whether a file is ignored. This is exposed publicly because calling `rum#ignore` has to be loaded so you'd have to call it in an `after/plugins` script. If you don't want to mess with that, you can just set the initial list to something else.
 
 ## Fun Facts
 
-Rumrunner (and derivatives) is the only word in the English language with "mru" in it in order. Hence the name. You can imagine how excited I was when I found that out. But I also just like the imagery of a pirate doing work behind the scenes to make sure you've always got what you need.
+Rumrunner (and derivatives) is the only word in the English language with "mru" in it in order. Hence the name. You can imagine how excited I was when I found that out. But I also just like the imagery of a pirate managing the store of rum in secret.
 
 ## Contributing
 

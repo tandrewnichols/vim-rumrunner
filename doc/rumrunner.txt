@@ -527,7 +527,7 @@ lot of time on a patch.
 
 VERSION                                         *rumrunner-version*
 
-Version 1.0.1
+Version 2.0.0
 
 LICENSE                                         *rumrunner-license*
 

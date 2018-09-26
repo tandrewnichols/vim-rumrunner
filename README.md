@@ -170,7 +170,7 @@ If you're doing something that might create an unwanted entry in the mru list, y
 
 #### View, navigate, and order the list
 
-As of v2.0.0, rumrunner provides it's own buffer for viewing, navigating, and ordering the current mru list. Use `:RumList` to open the current mru list in a vertical split (`:RumList!` for horizontal). There you'll be presented with rumrunner's current buffer list, including the file name associated with each buffer. Within that buffer, use the following mappings:
+As of v2.0.1, rumrunner provides it's own buffer for viewing, navigating, and ordering the current mru list. Use `:RumList` to open the current mru list in a vertical split (`:RumList!` for horizontal). There you'll be presented with rumrunner's current buffer list, including the file name associated with each buffer. Within that buffer, use the following mappings:
 
 - `q` - Close the mru list buffer.
 - `d` - Remove the entry under the cursor from the list.

@@ -26,7 +26,7 @@ for [option, default] in items({
   call s:Set(option, default)
 endfor
 
-let g:rumrunner_VERSION = '2.0.0'
+let g:rumrunner_VERSION = '2.0.1'
 
 function! s:Init()
   for item in argv()

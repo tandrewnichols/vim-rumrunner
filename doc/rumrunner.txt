@@ -234,7 +234,7 @@ you want to be included in the MRU list.
 
 View                                            *rumrunner-view*
 
-As of version 2.0.0, you can view rumrunner's internal list via `:RumList`,
+As of version 2.0.1, you can view rumrunner's internal list via `:RumList`,
 which opens in a vertical split by default (you can override this with
 `:RumList!`). Within the buffer that opens, you can use the following mappings
 to manipulate the mru list:
@@ -527,7 +527,7 @@ lot of time on a patch.
 
 VERSION                                         *rumrunner-version*
 
-Version 2.0.0
+Version 2.0.1
 
 LICENSE                                         *rumrunner-license*
 

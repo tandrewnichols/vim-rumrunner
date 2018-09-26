@@ -147,7 +147,12 @@ function! rum#list(bang) abort
   let entries = []
 
   for bufnum in rum#get()
-    call add(entries, vigor#string#padEnd(bufnum, 6) . bufname(bufnum))
+    if len(bufnum) < 6
+      let num = bufnum . repeat(' ', 6 - len(bufnum))
+    else
+      let num = bufnum
+    endif
+    call add(entries, num . bufname(bufnum))
   endfor
 
   exec "keepjumps hide" cmd "[Rumrunner]"

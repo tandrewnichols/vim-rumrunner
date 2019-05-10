@@ -1,6 +1,6 @@
-if exists('g:loaded_rum') || &cp | finish | endif
+if exists('g:loaded_rumrunner') || &cp | finish | endif
 
-let g:loaded_rum = 1
+let g:loaded_rumrunner = 1
 
 function! s:Set(option, default) abort
   exec "let g:rumrunner_" . a:option "= get(g:, 'rumrunner_" . a:option . "', a:default)"
